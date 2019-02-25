@@ -136,6 +136,9 @@ body {
     rgb(61, 39, 14)
   );
 }
+.hide {
+  display: none;
+}
 
 /*****************HEADER*************/
 header {
@@ -224,9 +227,55 @@ nav a:hover,
 }
 
 /****************list of students**************/
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  margin: 40px 40px 40px 40px;
+}
+
+#fnList li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 40px;
+}
+
+#lnList li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 40px;
+}
+li h1 {
+  font-family: "Fredericka the Great", cursive;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.student-box {
+  background-color: white;
+  padding: 10px;
+  margin-top: 5px;
+}
+li button {
+  align-self: flex-end;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  justify-self: center;
+  background-color: rgb(68, 19, 19);
+  border: none;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+}
+li button:hover {
+  background-color: rgb(160, 83, 83);
+  transform: scale(1.2);
+}
 
 /************* MODAL  *****************/
-/* .modal {
+.modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -270,7 +319,7 @@ nav a:hover,
   color: white;
   font-family: "Fredericka the Great", cursive;
   font-weight: 100;
-} */
+}
 
 /***********HOUSES COLOURS***********/
 .gryffindor {
