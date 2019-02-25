@@ -1,14 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student List 2</title>
-    <link rel="stylesheet" href="studentlist.css" type="text/css">
-</head>
-<body>
-  <h1>Students 1991</h1>
-    
-  <script src="studentlist.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student List Hogwarts</title>
+    <link rel="stylesheet" href="studentlist.css" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky|Fredericka+the+Great|Kranky|Oleo+Script+Swash+Caps"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Oswald"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <img src="images/hogwarts-logo.png" alt="hogwats logo" />
+      <h1>Hogwarts</h1>
+      <h2>Students from 1991</h2>
+    </header>
+    <main>
+      <nav>
+        <a id="btnAll" href="#nav">All</a>
+        <a id="btnFirstN" href="#">Fist Name</a>
+        <a id="btnLastN" href="#">Last Name</a>
+        <a id="btnHouse" href="#">House</a>
+        <div class="dropdown">
+          <button class="dropbtn">
+            Filters
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a id="gry" href="#nav">Gryffindor</a>
+            <a id="huf" href="#nav">Hufflepuff</a>
+            <a id="rav" href="#nav">Ravenclaw</a>
+            <a id="sly" href="#nav">Slytherin</a>
+          </div>
+        </div>
+      </nav>
+      <ul>
+        <template id="studentTemplate">
+          <li id="" class="student-box">
+            <h2><strong>House:</strong> <span></span></h2>
+            <button class="details-button"></button>
+            <h1><strong>Name:</strong> <span></span></h1>
+          </li>
+        </template>
+      </ul>
+    </main>
+    <aside id="#" class="modal hide">
+      <div class="modal-content">
+        <img class="studentImg" src="" alt="portrait" />
+        <h1 class="name">Name: <span></span></h1>
+        <h2 class="house">Student House</h2>
+      </div>
+    </aside>
+
+    <script src="studentlist.js"></script>
+  </body>
 </html>
