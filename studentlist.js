@@ -7,22 +7,23 @@ const studentObject = {
   image: "-student image-",
   house: "-student house-"
 };
-const arrayOfStudents = [];
+let arrayOfStudents = [];
 let currentFilter;
+let filter;
 
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  console.log("init");
-
-  document.querySelector("#gry").addEventListener("click", filterGryfindor);
+  document.querySelectorAll(".filter").forEach(filter => {
+    filter.addEventListener("click", setFilter);
+  });
 
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getJSON();
 }
 
 function getJSON() {
-  console.log("getJSON");
+  //console.log("getJSON");
   fetch(baseLink)
     .then(pro => pro.json())
     .then(makeObject);
@@ -55,24 +56,50 @@ function makeObject(studentList) {
   //displayList(arrayOfStudents);
   filterList(arrayOfStudents);
 }
-function filterGryfindor() {
-  console.log("working");
-  //return arrayOfStudents.filter();
-}
+
+// function filterGryfindor() {
+//   console.log("working");
+//   //console.log(arrayOfStudents);
+//   arrayOfStudents.filter(student => student.house == "Gryfindor");
+// }
+
 function filterList() {
-  let filteredList = arrayOfStudents;
+  const filteredList = arrayOfStudents.filter(oneFilter);
+  //console.log(student);
+  //let filteredList = arrayOfStudents;
+
+  displayList(filteredList);
 
   sortList(filteredList);
 }
 
-function sortList(arrayOfStudents) {
-  displayList(arrayOfStudents);
+function setFilter(event) {
+  console.log(event);
+  filter = event.target.innerText;
+  console.log(filter);
+  filterList();
 }
 
-function displayList(arrayOfStudents) {
-  console.log(arrayOfStudents);
+function oneFilter(item) {
+  //
+  if (!filter) {
+    return true;
+  }
+  if (item.house === filter) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function sortList(arrayOfStudents) {
+  //displayList(arrayOfStudents);
+}
+
+function displayList(filteredList) {
+  //console.log(arrayOfStudents);
   arrayOfStudents.forEach(student => {
-    console.log(student.firstname);
+    //console.log(student.firstname);
     const template = document.querySelector("#studentFirstNTemplate").content;
     const clone = template.cloneNode(true);
 
