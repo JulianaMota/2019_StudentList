@@ -8,11 +8,14 @@ const studentObject = {
   house: "-student house-"
 };
 const arrayOfStudents = [];
+let currentFilter;
 
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
   console.log("init");
+
+  document.querySelector("#gry").addEventListener("click", filterGryfindor);
 
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getJSON();
@@ -49,18 +52,25 @@ function makeObject(studentList) {
     arrayOfStudents.push(newStuObject);
     //console.log(arrayOfStudents);
   });
-  displayFirstName(arrayOfStudents);
-  displayLasttName(arrayOfStudents);
+  //displayList(arrayOfStudents);
+  filterList(arrayOfStudents);
 }
-
-console.log(arrayOfStudents);
-
+function filterGryfindor() {
+  console.log("working");
+  //return arrayOfStudents.filter();
+}
 function filterList() {
-  console.log("filterList");
+  let filteredList = arrayOfStudents;
+
+  sortList(filteredList);
 }
 
-function displayFirstName(arrayOfStudents) {
-  //console.log(arrayOfStudents);
+function sortList(arrayOfStudents) {
+  displayList(arrayOfStudents);
+}
+
+function displayList(arrayOfStudents) {
+  console.log(arrayOfStudents);
   arrayOfStudents.forEach(student => {
     console.log(student.firstname);
     const template = document.querySelector("#studentFirstNTemplate").content;
@@ -70,22 +80,10 @@ function displayFirstName(arrayOfStudents) {
       .querySelector(".details-button")
       .addEventListener("click", () => showOneStudent(student));
 
-    clone.querySelector("h1 span").textContent = student.firstname;
+    clone.querySelector(".firstN span").textContent = student.firstname;
+    clone.querySelector(".lastN span").textContent = student.lastname;
 
     document.querySelector("#fnList").appendChild(clone);
-  });
-}
-
-function displayLasttName(arrayOfStudents) {
-  //console.log(arrayOfStudents);
-  arrayOfStudents.forEach(student => {
-    console.log(student.firstname);
-    const template = document.querySelector("#studentLastNTemplate").content;
-    const clone = template.cloneNode(true);
-
-    clone.querySelector("h1 span").textContent = student.lastname;
-
-    document.querySelector("#lnList").appendChild(clone);
   });
 }
 
