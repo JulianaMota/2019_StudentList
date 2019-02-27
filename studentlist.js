@@ -10,14 +10,19 @@ const studentObject = {
 let arrayOfStudents = [];
 let currentFilter;
 let filter;
+let currentSort;
 
 window.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  document.querySelectorAll(".filter").forEach(filter => {
-    filter.addEventListener("click", setFilter);
-  });
-
+  document.querySelector("#Gryffindor").addEventListener("click", filterList);
+  document.querySelector("#Hufflepuff").addEventListener("click", filterList);
+  document.querySelector("#Ravenclaw").addEventListener("click", filterList);
+  document.querySelector("#Slytherin").addEventListener("click", filterList);
+  document.querySelector("#btnAll").addEventListener("click", filterList);
+  document.querySelector("#firstname").addEventListener("click", sortList);
+  document.querySelector("#lastname").addEventListener("click", sortList);
+  document.querySelector("#house").addEventListener("click", sortList);
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getJSON();
 }
@@ -28,7 +33,6 @@ function getJSON() {
     .then(pro => pro.json())
     .then(makeObject);
   // NOTE: Maybe also call sortByFirst the first time ... Investigate!
-  //filterList();
 }
 function makeObject(studentList) {
   //console.log(studentList);
@@ -53,51 +57,46 @@ function makeObject(studentList) {
     arrayOfStudents.push(newStuObject);
     //console.log(arrayOfStudents);
   });
-  //displayList(arrayOfStudents);
-  filterList(arrayOfStudents);
+  displayList(arrayOfStudents);
 }
-
-// function filterGryfindor() {
-//   console.log("working");
-//   //console.log(arrayOfStudents);
-//   arrayOfStudents.filter(student => student.house == "Gryfindor");
-// }
-
 function filterList() {
-  const filteredList = arrayOfStudents.filter(oneFilter);
-  //console.log(student);
-  //let filteredList = arrayOfStudents;
+  //console.log(this.getAttribute("id"));
+  let filteredList = arrayOfStudents;
 
-  displayList(filteredList);
-
-  sortList(filteredList);
-}
-
-function setFilter(event) {
-  console.log(event);
-  filter = event.target.innerText;
-  console.log(filter);
-  filterList();
-}
-
-function oneFilter(item) {
-  //
-  if (!filter) {
-    return true;
-  }
-  if (item.house === filter) {
-    return true;
+  currentFilter = this.getAttribute("id");
+  if (currentFilter === "btnAll") {
+    displayList(arrayOfStudents);
   } else {
-    return false;
+    function filterByHouse(student) {
+      return student.house === currentFilter;
+    }
+
+    filteredList = arrayOfStudents.filter(filterByHouse);
+    displayList(filteredList);
   }
 }
 
-function sortList(arrayOfStudents) {
-  //displayList(arrayOfStudents);
+function sortList() {
+  currentSort = this.getAttribute("id");
+  console.log(currentSort);
+  if (currentSort === "btnAll") {
+    displayList(arrayOfStudents);
+  } else {
+    function sortEach(a, b) {
+      if (a.currentSort < b.currentSort) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  }
+  sortedList = arrayOfStudents.sort(sortEach);
+  displayList(sortList);
 }
 
-function displayList(filteredList) {
+function displayList(arrayOfStudents) {
   //console.log(arrayOfStudents);
+  document.querySelector("#fnList").innerHTML = "";
   arrayOfStudents.forEach(student => {
     //console.log(student.firstname);
     const template = document.querySelector("#studentFirstNTemplate").content;
@@ -119,7 +118,7 @@ function showOneStudent(student) {
   console.log("working");
   const modal = document.querySelector(".modal");
 
-  //modal.querySelector(".modal-content").id = student.fullname;
+  modal.querySelector(".modal-content").id = student.fullname;
   modal.querySelector(".studentImg").src = student.image;
   modal.querySelector(".name span").textContent = student.fullname;
   modal.querySelector(".house").textContent = student.house;

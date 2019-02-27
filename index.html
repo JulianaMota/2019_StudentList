@@ -27,38 +27,35 @@
     <main>
       <nav>
         <a id="btnAll" href="#nav">All</a>
-        <a id="btnFirstN" href="#">Fist Name</a>
-        <a id="btnLastN" href="#">Last Name</a>
-        <a id="btnHouse" href="#">House</a>
+        <a id="firstname" href="#">Fist Name</a>
+        <a id="lastname" href="#">Last Name</a>
+        <a id="house" href="#">House</a>
         <div class="dropdown">
           <button class="dropbtn">
             Filters
             <i class="fa fa-caret-down"></i>
           </button>
           <div class="dropdown-content">
-            <a id="gry" class="filter" href="#nav">Gryffindor</a>
-            <a id="huf" class="filter" href="#nav">Hufflepuff</a>
-            <a id="rav" class="filter" href="#nav">Ravenclaw</a>
-            <a id="sly" class="filter" href="#nav">Slytherin</a>
+            <a id="Gryffindor" class="filter" href="#nav">Gryffindor</a>
+            <a id="Hufflepuff" class="filter" href="#nav">Hufflepuff</a>
+            <a id="Ravenclaw" class="filter" href="#nav">Ravenclaw</a>
+            <a id="Slytherin" class="filter" href="#nav">Slytherin</a>
           </div>
         </div>
       </nav>
       <section>
-        <ul id="fnList">
-          <template id="studentFirstNTemplate">
-            <li id="">
-              <button class="details-button"></button>
-              <div class="student-box">
-                <h2 class="firstN">
-                  <strong>First Name:</strong> <span></span>
-                </h2>
-              </div>
-              <div class="student-box">
-                <h2 class="lastN"><strong>Last name:</strong> <span></span></h2>
-              </div>
-            </li>
-          </template>
-        </ul>
+        <ul id="fnList"></ul>
+        <template id="studentFirstNTemplate">
+          <li id="">
+            <button class="details-button"></button>
+            <div class="student-box">
+              <h2 class="firstN"><strong>First Name:</strong> <span></span></h2>
+            </div>
+            <div class="student-box">
+              <h2 class="lastN"><strong>Last name:</strong> <span></span></h2>
+            </div>
+          </li>
+        </template>
       </section>
     </main>
     <aside id="#" class="modal hide">
