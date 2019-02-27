@@ -162,6 +162,11 @@ function displayList(arrayOfStudents) {
     clone.querySelector(".lastN span").textContent = student.lastname;
     clone.querySelector(".house span").textContent = student.house;
 
+    clone.querySelector("li").id = student.firstname;
+    clone
+      .querySelector(".expled-button")
+      .addEventListener("click", () => expel(student));
+
     document.querySelector("#fnList").appendChild(clone);
   });
 }
@@ -205,6 +210,16 @@ function showOneStudent(student) {
 
 // TODO: Create scaffolding functions for the rest!
 
-function clickSortByFirst() {}
+function expel(student) {
+  console.log(student.firstname);
+  let id = student.firstname;
 
-function sortListByFirst() {}
+  let onestudent = document.querySelector("#" + id);
+  //onestudent.style.display = "none";
+
+  onestudent.querySelector(".firstN span").textContent = student.firstname;
+  onestudent.querySelector(".lastN span").textContent = student.lastname;
+  onestudent.querySelector(".house span").textContent = student.house;
+
+  document.querySelector("#expeld").appendChild(onestudent);
+}
