@@ -8,6 +8,7 @@ const studentObject = {
   house: "-student house-"
 };
 let arrayOfStudents = [];
+let filteredList = [];
 let currentFilter;
 let filter;
 let currentSort;
@@ -20,9 +21,9 @@ function init() {
   document.querySelector("#Ravenclaw").addEventListener("click", filterList);
   document.querySelector("#Slytherin").addEventListener("click", filterList);
   document.querySelector("#btnAll").addEventListener("click", filterList);
-  document.querySelector("#firstname").addEventListener("click", sortList);
-  document.querySelector("#lastname").addEventListener("click", sortList);
-  document.querySelector("#house").addEventListener("click", sortList);
+  document.querySelector("#firstname").addEventListener("click", sortByFName);
+  document.querySelector("#lastname").addEventListener("click", sortByLName);
+  document.querySelector("#house").addEventListener("click", sortByHouse);
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getJSON();
 }
@@ -55,17 +56,19 @@ function makeObject(studentList) {
 
     //console.log(newStuObject.image);
     arrayOfStudents.push(newStuObject);
+    filteredList = arrayOfStudents;
     //console.log(arrayOfStudents);
   });
   displayList(arrayOfStudents);
 }
 function filterList() {
   //console.log(this.getAttribute("id"));
-  let filteredList = arrayOfStudents;
+  //filteredList = arrayOfStudents;
 
   currentFilter = this.getAttribute("id");
   if (currentFilter === "btnAll") {
     displayList(arrayOfStudents);
+    filteredList = arrayOfStudents;
   } else {
     function filterByHouse(student) {
       return student.house === currentFilter;
@@ -73,25 +76,74 @@ function filterList() {
 
     filteredList = arrayOfStudents.filter(filterByHouse);
     displayList(filteredList);
+    console.log(filteredList);
   }
 }
 
-function sortList() {
-  currentSort = this.getAttribute("id");
-  console.log(currentSort);
-  if (currentSort === "btnAll") {
-    displayList(arrayOfStudents);
-  } else {
-    function sortEach(a, b) {
-      if (a.currentSort < b.currentSort) {
-        return -1;
-      } else {
-        return 1;
-      }
+// // function sortList() {
+// //   currentSort = this.getAttribute("id");
+// //   console.log(currentSort);
+// //   let sortedList = arrayOfStudents;
+
+//   if (currentSort === currentSort) {
+//     function sortEach(a, b) {
+//       if (a.currentSort < b.currentSort) {
+//         return -1;
+//       } else {
+//         return 1;
+//       }
+//     }
+// //     sortedList = arrayOfStudents.sort(sortEach);
+// //     //displayList(sortedList);
+// //     console.log(sortedList);
+// //   }
+// // }
+
+function sortByFName() {
+  function sort(a, b) {
+    //console.log(arrayOfStudents);
+    if (a.firstname < b.firstname) {
+      return -1;
+    } else {
+      return 1;
     }
   }
-  sortedList = arrayOfStudents.sort(sortEach);
-  displayList(sortList);
+  filteredList.sort(sort);
+  document.querySelector("#fnList").innerHTML = "";
+  displayList(filteredList);
+  console.log(filteredList);
+}
+
+function sortByLName() {
+  function sort(a, b) {
+    //console.log(arrayOfStudents);
+    if (a.lastname < b.lastname) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+
+  document.querySelector("#fnList").innerHTML = "";
+  filteredList.sort(sort);
+  displayList(filteredList);
+  console.log(filteredList);
+}
+
+function sortByHouse() {
+  //document.querySelector("#fnList").innerHTML = "";
+  function sort(a, b) {
+    //console.log(arrayOfStudents);
+    if (a.house < b.house) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+  document.querySelector("#fnList").innerHTML = "";
+  filteredList.sort(sort);
+  displayList(filteredList);
+  console.log(filteredList);
 }
 
 function displayList(arrayOfStudents) {
@@ -108,6 +160,7 @@ function displayList(arrayOfStudents) {
 
     clone.querySelector(".firstN span").textContent = student.firstname;
     clone.querySelector(".lastN span").textContent = student.lastname;
+    clone.querySelector(".house span").textContent = student.house;
 
     document.querySelector("#fnList").appendChild(clone);
   });
