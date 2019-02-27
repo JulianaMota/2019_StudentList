@@ -109,7 +109,7 @@ function sortByFName() {
     }
   }
   filteredList.sort(sort);
-  document.querySelector("#fnList").innerHTML = "";
+  document.querySelector("#sList").innerHTML = "";
   displayList(filteredList);
   console.log(filteredList);
 }
@@ -124,7 +124,7 @@ function sortByLName() {
     }
   }
 
-  document.querySelector("#fnList").innerHTML = "";
+  document.querySelector("#sList").innerHTML = "";
   filteredList.sort(sort);
   displayList(filteredList);
   console.log(filteredList);
@@ -140,7 +140,7 @@ function sortByHouse() {
       return 1;
     }
   }
-  document.querySelector("#fnList").innerHTML = "";
+  document.querySelector("#sList").innerHTML = "";
   filteredList.sort(sort);
   displayList(filteredList);
   console.log(filteredList);
@@ -148,7 +148,7 @@ function sortByHouse() {
 
 function displayList(arrayOfStudents) {
   //console.log(arrayOfStudents);
-  document.querySelector("#fnList").innerHTML = "";
+  document.querySelector("#sList").innerHTML = "";
   arrayOfStudents.forEach(student => {
     //console.log(student.firstname);
     const template = document.querySelector("#studentFirstNTemplate").content;
@@ -158,16 +158,16 @@ function displayList(arrayOfStudents) {
       .querySelector(".details-button")
       .addEventListener("click", () => showOneStudent(student));
 
-    clone.querySelector(".firstN span").textContent = student.firstname;
-    clone.querySelector(".lastN span").textContent = student.lastname;
-    clone.querySelector(".house span").textContent = student.house;
+    clone.querySelector(".firstN").textContent = student.firstname;
+    clone.querySelector(".lastN").textContent = student.lastname;
+    clone.querySelector(".house").textContent = student.house;
 
     clone.querySelector("li").id = student.firstname;
     clone
-      .querySelector(".expled-button")
+      .querySelector(".expel-button")
       .addEventListener("click", () => expel(student));
 
-    document.querySelector("#fnList").appendChild(clone);
+    document.querySelector("#sList").appendChild(clone);
   });
 }
 
@@ -177,7 +177,14 @@ function showOneStudent(student) {
   const modal = document.querySelector(".modal");
 
   modal.querySelector(".modal-content").id = student.fullname;
-  modal.querySelector(".studentImg").src = student.image;
+  console.log(student.image.src === "404(Not Found)");
+
+  if (student.image) {
+    modal.querySelector(".studentImg").src = student.image;
+  } else {
+    modal.querySelector(".studentImg").src = "images/unknown-person.png";
+  }
+
   modal.querySelector(".name span").textContent = student.fullname;
   modal.querySelector(".house").textContent = student.house;
   if (student.house == "Gryffindor") {
@@ -215,11 +222,8 @@ function expel(student) {
   let id = student.firstname;
 
   let onestudent = document.querySelector("#" + id);
-  //onestudent.style.display = "none";
-
-  onestudent.querySelector(".firstN span").textContent = student.firstname;
-  onestudent.querySelector(".lastN span").textContent = student.lastname;
-  onestudent.querySelector(".house span").textContent = student.house;
 
   document.querySelector("#expeld").appendChild(onestudent);
+
+  onestudent.querySelector(".expel-button").classList.add("hide");
 }
