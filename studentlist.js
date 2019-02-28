@@ -24,17 +24,23 @@ function init() {
   document.querySelector("#firstname").addEventListener("click", sortByFName);
   document.querySelector("#lastname").addEventListener("click", sortByLName);
   document.querySelector("#house").addEventListener("click", sortByHouse);
+
+  document.querySelector("section").addEventListener("click", clickList);
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getJSON();
 }
+
+//Fetch jason file
 
 function getJSON() {
   //console.log("getJSON");
   fetch(baseLink)
     .then(pro => pro.json())
     .then(makeObject);
-  // NOTE: Maybe also call sortByFirst the first time ... Investigate!
 }
+
+//create nwe object
+
 function makeObject(studentList) {
   //console.log(studentList);
   studentList.forEach(stuData => {
@@ -59,8 +65,17 @@ function makeObject(studentList) {
     filteredList = arrayOfStudents;
     //console.log(arrayOfStudents);
   });
+  arrayOfStudents.forEach(student => {
+    console.log(student);
+    const uniqueID = uuidv4();
+    student.id = uniqueID;
+  });
+  console.log(arrayOfStudents);
   displayList(arrayOfStudents);
 }
+
+//filter list
+
 function filterList() {
   //console.log(this.getAttribute("id"));
   //filteredList = arrayOfStudents;
@@ -80,24 +95,7 @@ function filterList() {
   }
 }
 
-// // function sortList() {
-// //   currentSort = this.getAttribute("id");
-// //   console.log(currentSort);
-// //   let sortedList = arrayOfStudents;
-
-//   if (currentSort === currentSort) {
-//     function sortEach(a, b) {
-//       if (a.currentSort < b.currentSort) {
-//         return -1;
-//       } else {
-//         return 1;
-//       }
-//     }
-// //     sortedList = arrayOfStudents.sort(sortEach);
-// //     //displayList(sortedList);
-// //     console.log(sortedList);
-// //   }
-// // }
+//sort by first Name
 
 function sortByFName() {
   function sort(a, b) {
@@ -113,6 +111,8 @@ function sortByFName() {
   displayList(filteredList);
   console.log(filteredList);
 }
+
+//sort by last Name
 
 function sortByLName() {
   function sort(a, b) {
@@ -130,6 +130,8 @@ function sortByLName() {
   console.log(filteredList);
 }
 
+//sort by house
+
 function sortByHouse() {
   //document.querySelector("#fnList").innerHTML = "";
   function sort(a, b) {
@@ -145,6 +147,8 @@ function sortByHouse() {
   displayList(filteredList);
   console.log(filteredList);
 }
+
+//Display List
 
 function displayList(arrayOfStudents) {
   //console.log(arrayOfStudents);
@@ -163,20 +167,19 @@ function displayList(arrayOfStudents) {
     clone.querySelector(".house").textContent = student.house;
 
     clone.querySelector("li").id = student.firstname;
-    clone
-      .querySelector(".expel-button")
-      .addEventListener("click", () => expel(student));
+    clone.querySelector("[data-action=remove]").id = student.id;
 
     document.querySelector("#sList").appendChild(clone);
   });
 }
 
+// MODAL
 function showOneStudent(student) {
   console.log(student);
   console.log("working");
   const modal = document.querySelector(".modal");
 
-  modal.querySelector(".modal-content").id = student.fullname;
+  //modal.querySelector(".modal-content").id = student.fullname;
   console.log(student.image.src === "404(Not Found)");
 
   if (student.image) {
@@ -215,15 +218,59 @@ function showOneStudent(student) {
   modal.addEventListener("click", () => modal.classList.add("hide"));
 }
 
-// TODO: Create scaffolding functions for the rest!
+// expel students
 
-function expel(student) {
-  console.log(student.firstname);
-  let id = student.firstname;
+// function expel(student) {
+//   console.log(student.firstname);
+//   let id = student.firstname;
 
-  let onestudent = document.querySelector("#" + id);
+//   let onestudent = document.querySelector("#" + id);
 
-  document.querySelector("#expeld").appendChild(onestudent);
+//   document.querySelector("#expeld").appendChild(onestudent);
 
-  onestudent.querySelector(".expel-button").classList.add("hide");
+//   onestudent.querySelector(".expel-button").classList.add("hide");
+// }
+
+function clickList(event) {
+  //console.log(event.target.dataset.action === "remove");
+  // TODO: Figure out if a button was clicked
+  if (event.target.dataset.action === "remove") {
+    const eventId = event.target.id;
+    console.log(eventId);
+    clickRemove(eventId);
+  }
+  // TODO: Figure out if it was a remove-button
+
+  // TODO: If so, call clickRemove
+}
+
+function clickRemove(eventId) {
+  console.log(arrayOfStudents);
+  // TODO: Figure out which element should be removed
+  // TODO: Find the element index in the array
+  function findById(id) {
+    return arrayOfStudents.findIndex(obj => obj.id === id);
+  }
+  // TODO: Splice that element from the array
+  let removeObject = findById(eventId);
+  console.log(removeObject);
+
+  arrayOfStudents.splice(removeObject, 1);
+  //console.log(allAnimals);
+
+  // Re-display the list
+  displayList(arrayOfStudents);
+  // let expelledList = [];
+  // expelledList.slice(removeObject, 1);
+  // console.log(expelledList);
+  //document.querySelector("#expeld").appendChild();
+}
+
+//https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
