@@ -1,11 +1,14 @@
 "use strict";
 const baseLink = "https://petlatkea.dk/2019/hogwarts/students.json";
+const familyLink = "https://petlatkea.dk/2019/hogwarts/families.json";
 const studentObject = {
   fullname: "-student name-",
   firstname: "-student first name-",
   lastname: "-student last name-",
   image: "-student image-",
-  house: "-student house-"
+  house: "-student house-",
+  bloodstatus: "-student blood status-",
+  inquisitorialSquad: "-inquistor-"
 };
 let arrayOfStudents = [];
 let filteredList = [];
@@ -37,12 +40,38 @@ function getJSON() {
   fetch(baseLink)
     .then(pro => pro.json())
     .then(makeObject);
+
+  fetch(familyLink)
+    .then(pro => pro.json())
+    .then(nameChecking);
+  // let firstfetch = fetch(baseLink).then(function(pro) {
+  //   return pro.json;
+  // });
+  // console.log(firstfetch);
+
+  // let secondtfetch = fetch(familyLink).then(function(pro) {
+  //   return pro.json;
+  // });
+
+  // let combinedData = { firstfetch: {}, secondtfetch: {} };
+  // Promise.all([firstfetch, secondtfetch])
+  //   .then(function(values) {
+  //     combinedData["firstfetch"] = values[0];
+  //     combinedData["secondtfetch"] = values[1];
+  //     console.log(combinedData);
+  //     //return combinedData;
+  //   })
+  //   .then(makeObject);
 }
 
-//create nwe object
+function nameChecking(bloodList) {
+  console.log(bloodList);
+}
+
+//create new object
 
 function makeObject(studentList) {
-  //console.log(studentList);
+  console.log(studentList);
   studentList.forEach(stuData => {
     const newStuObject = Object.create(studentObject);
     const firstSpace = stuData.fullname.indexOf(" ");
