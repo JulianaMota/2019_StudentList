@@ -15,6 +15,8 @@ let filteredList = [];
 let currentFilter;
 let filter;
 let currentSort;
+let families = [];
+let inquistSquade = [];
 
 window.addEventListener("DOMContentLoaded", init);
 
@@ -30,7 +32,7 @@ function init() {
 
   document.querySelector("section").addEventListener("click", clickList);
   // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
-  getJSON();
+  getFamilies();
 }
 
 //Fetch jason file
@@ -40,42 +42,28 @@ function getJSON() {
   fetch(baseLink)
     .then(pro => pro.json())
     .then(makeObject);
-
+}
+function getFamilies() {
   fetch(familyLink)
     .then(pro => pro.json())
     .then(nameChecking);
-  // let firstfetch = fetch(baseLink).then(function(pro) {
-  //   return pro.json;
-  // });
-  // console.log(firstfetch);
-
-  // let secondtfetch = fetch(familyLink).then(function(pro) {
-  //   return pro.json;
-  // });
-
-  // let combinedData = { firstfetch: {}, secondtfetch: {} };
-  // Promise.all([firstfetch, secondtfetch])
-  //   .then(function(values) {
-  //     combinedData["firstfetch"] = values[0];
-  //     combinedData["secondtfetch"] = values[1];
-  //     console.log(combinedData);
-  //     //return combinedData;
-  //   })
-  //   .then(makeObject);
 }
 
 function nameChecking(bloodList) {
-  console.log(bloodList);
+  families = bloodList;
+  //console.log(families);
+  getJSON();
 }
 
 //create new object
 
 function makeObject(studentList) {
-  console.log(studentList);
+  //console.log(families);
   studentList.forEach(stuData => {
     const newStuObject = Object.create(studentObject);
     const firstSpace = stuData.fullname.indexOf(" ");
     const lastSpace = stuData.fullname.lastIndexOf(" ");
+
     //console.log(studentObject);
 
     newStuObject.fullname = stuData.fullname;
@@ -88,18 +76,33 @@ function makeObject(studentList) {
       "_" +
       stuData.fullname.substring(0, 1).toLowerCase() +
       ".png";
+    newStuObject.bloodstatus = "blood";
+    newStuObject.inquisitorialSquad = false;
 
+    const lastN = newStuObject.lastname;
+
+    function checkblood(lastN) {
+      //console.log(lastN);
+      if (families.half.includes(lastN)) {
+        newStuObject.bloodstatus = "Half";
+      } else if (families.pure.includes(lastN)) {
+        newStuObject.bloodstatus = "Pure";
+      } else {
+        newStuObject.bloodstatus = "Muggle";
+      }
+    }
+    checkblood(lastN);
     //console.log(newStuObject.image);
     arrayOfStudents.push(newStuObject);
     filteredList = arrayOfStudents;
     //console.log(arrayOfStudents);
   });
   arrayOfStudents.forEach(student => {
-    console.log(student);
+    //onsole.log(student);
     const uniqueID = uuidv4();
     student.id = uniqueID;
   });
-  console.log(arrayOfStudents);
+  //console.log(arrayOfStudents);
   displayList(arrayOfStudents);
 }
 
@@ -194,12 +197,37 @@ function displayList(arrayOfStudents) {
     clone.querySelector(".firstN").textContent = student.firstname;
     clone.querySelector(".lastN").textContent = student.lastname;
     clone.querySelector(".house").textContent = student.house;
+    clone.querySelector(".blood").textContent = student.bloodstatus;
 
     clone.querySelector("li").id = student.firstname;
     clone.querySelector("[data-action=remove]").id = student.id;
+    clone
+      .querySelector("input[name=checkbox]")
+      .addEventListener("click", () => addinquisitorialSquad(student));
 
     document.querySelector("#sList").appendChild(clone);
   });
+}
+
+function addinquisitorialSquad(student) {
+  console.log(event);
+  console.log(student);
+  //console.log(student.inquisitorialSquad);
+  if (event.target.checked === true) {
+    if (student.house == "Slytherin" || student.blood == "pure") {
+      inquistSquade.push(student);
+      console.log(inquistSquade);
+
+      document.querySelector(".sqadeImg").src = "images/wizengamot_seal.png";
+      document.querySelector(".sqadeImg").classList.remove("hide");
+    } else {
+      document.querySelector(".sqadeImg").classList.add("hide");
+      //Checkbox is not checked..
+    }
+    //student.inquisitorialSquad = true;
+
+    //Checkbox is not checked..
+  }
 }
 
 // MODAL
