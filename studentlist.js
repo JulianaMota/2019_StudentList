@@ -224,15 +224,15 @@ function displayList(arrayOfStudents) {
 }
 
 function addinquisitorialSquad(student) {
-  console.log(event);
-  console.log(student);
+  //console.log(event);
+  //console.log(student);
   let id = student.firstname;
   //console.log(student.inquisitorialSquad);
   //checkbox is checked
   if (event.target.checked === true) {
     if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
       inquistSquade.push(student);
-      console.log(inquistSquade);
+      //console.log(inquistSquade);
       student.inquisitorialSquad = true;
       document
         .querySelector("#" + id + " div .sqadeImg ")
@@ -250,14 +250,28 @@ function addinquisitorialSquad(student) {
     let obj = inquistSquade.find(obj => obj === student);
     let po = inquistSquade.indexOf(obj);
     inquistSquade.splice(po, 1);
-    console.log(inquistSquade);
+    //console.log(inquistSquade);
     student.inquisitorialSquad = false;
+  }
+  autoRemoveFromISquade(event);
+
+  function autoRemoveFromISquade(event) {
+    let isevent = event;
+    setTimeout(function() {
+      isevent.target.checked = false;
+      console.log(event);
+      inquistSquade.pop();
+      document
+        .querySelector("#" + id + " div .sqadeImg ")
+        .classList.add("hide");
+      console.log(inquistSquade);
+    }, 3000);
   }
 }
 
 // MODAL
 function showOneStudent(student) {
-  console.log(student);
+  //console.log(student);
   console.log("working");
   const modal = document.querySelector(".modal");
 
@@ -322,7 +336,7 @@ function showOneStudent(student) {
 }
 
 function clickList(event) {
-  console.log(event);
+  //console.log(event);
   // TODO: Figure out if a button was clicked
   if (event.target.dataset.action === "remove") {
     // TODO: If so, call clickRemove
@@ -350,7 +364,7 @@ function clickRemove(eventId) {
     console.log(obj);
 
     obj.forEach(student => {
-      console.log(student);
+      //console.log(student);
       expelledList.push(student);
     });
     displayExpel(expelledList);
