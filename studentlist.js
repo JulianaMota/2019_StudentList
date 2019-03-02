@@ -10,6 +10,7 @@ const studentObject = {
   bloodstatus: "-student blood status-",
   inquisitorialSquad: "-inquistor-"
 };
+const myObject = {};
 let arrayOfStudents = [];
 let filteredList = [];
 let currentFilter;
@@ -264,26 +265,36 @@ function showOneStudent(student) {
     student.firstname;
   modal.querySelector("[data-field=lastName] span").textContent =
     student.lastname;
+  modal.querySelector("[data-field=blood] span").textContent =
+    student.bloodstatus;
 
   if (student.house == "Gryffindor") {
+    modal.querySelector("[data-field=hoseLogo]").src =
+      "images/gryfindor-logo_184x229.png";
     modal.querySelector(".modal-content").classList.add("gryffindor");
   } else {
     modal.querySelector(".modal-content").classList.remove("gryffindor");
   }
 
   if (student.house == "Hufflepuff") {
+    modal.querySelector("[data-field=hoseLogo]").src =
+      "images/hunfflepuff-logo_191x226.png";
     modal.querySelector(".modal-content").classList.add("hufflepuf");
   } else {
     modal.querySelector(".modal-content").classList.remove("hufflepuf");
   }
 
   if (student.house == "Ravenclaw") {
+    modal.querySelector("[data-field=hoseLogo]").src =
+      "images/ravenclaw-logo_184x232.png";
     modal.querySelector(".modal-content").classList.add("ravenclaw");
   } else {
     modal.querySelector(".modal-content").classList.remove("ravenclaw");
   }
 
   if (student.house == "Slytherin") {
+    modal.querySelector("[data-field=hoseLogo]").src =
+      "images/slytherin-logo_184x224.png";
     modal.querySelector(".modal-content").classList.add("slytherin");
   } else {
     modal.querySelector(".modal-content").classList.remove("slytherin");
@@ -299,35 +310,19 @@ function showOneStudent(student) {
   modal.addEventListener("click", () => modal.classList.add("hide"));
 }
 
-// expel students
-
-// function expel(student) {
-//   console.log(student.firstname);
-//   let id = student.firstname;
-
-//   let onestudent = document.querySelector("#" + id);
-
-//   document.querySelector("#expeld").appendChild(onestudent);
-
-//   onestudent.querySelector(".expel-button").classList.add("hide");
-// }
-
 function clickList(event) {
   //console.log(event.target.dataset.action === "remove");
   // TODO: Figure out if a button was clicked
   if (event.target.dataset.action === "remove") {
+    // TODO: If so, call clickRemove
     const eventId = event.target.id;
     console.log(eventId);
     clickRemove(eventId);
   }
-  // TODO: Figure out if it was a remove-button
-
-  // TODO: If so, call clickRemove
 }
 
 function clickRemove(eventId) {
   console.log(arrayOfStudents);
-  // TODO: Figure out which element should be removed
   // TODO: Find the element index in the array
   function findById(id) {
     return arrayOfStudents.findIndex(obj => obj.id === id);
@@ -341,6 +336,7 @@ function clickRemove(eventId) {
 
   // Re-display the list
   displayList(arrayOfStudents);
+
   // let expelledList = [];
   // expelledList.slice(removeObject, 1);
   // console.log(expelledList);
