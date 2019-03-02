@@ -10,12 +10,14 @@ const studentObject = {
   bloodstatus: "-student blood status-",
   inquisitorialSquad: "-inquistor-"
 };
+const house = ["Hufflepuff", "Gryffindor", "Ravenclaw", "Slytherin"];
+const randomH = Math.floor(Math.random() * house.length);
 const myObject = {
   fullname: "Juliana Maria Barreto Mota",
   firstname: "Juliana",
   lastname: "Mota",
   image: "images/juliana-portrait_350x503.png",
-  house: "Hufflepuff",
+  house: house[randomH],
   bloodstatus: "Muggle",
   inquisitorialSquad: false
 };
@@ -61,7 +63,9 @@ function getFamilies() {
 
 function nameChecking(bloodList) {
   families = bloodList;
-  //console.log(families);
+  // families.half = families.pure;
+  // families.pure = families.half;
+  console.log(families);
   getJSON();
 }
 
@@ -90,15 +94,16 @@ function makeObject(studentList) {
     newStuObject.inquisitorialSquad = false;
 
     const lastN = newStuObject.lastname;
-
+    const blood = ["Half", "Muggle"];
+    const random = Math.floor(Math.random() * blood.length);
     function checkblood(lastN) {
       //console.log(lastN);
       if (families.half.includes(lastN)) {
-        newStuObject.bloodstatus = "Half";
-      } else if (families.pure.includes(lastN)) {
         newStuObject.bloodstatus = "Pure";
+      } else if (families.pure.includes(lastN)) {
+        newStuObject.bloodstatus = blood[random];
       } else {
-        newStuObject.bloodstatus = "Muggle";
+        newStuObject.bloodstatus = "Pure";
       }
     }
     checkblood(lastN);
@@ -256,6 +261,7 @@ function addinquisitorialSquad(student) {
   autoRemoveFromISquade(event);
 
   function autoRemoveFromISquade(event) {
+    const time = Math.floor(Math.random() * 4000);
     let isevent = event;
     setTimeout(function() {
       isevent.target.checked = false;
@@ -265,7 +271,7 @@ function addinquisitorialSquad(student) {
         .querySelector("#" + id + " div .sqadeImg ")
         .classList.add("hide");
       console.log(inquistSquade);
-    }, 3000);
+    }, time);
   }
 }
 
