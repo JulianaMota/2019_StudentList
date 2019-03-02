@@ -10,7 +10,15 @@ const studentObject = {
   bloodstatus: "-student blood status-",
   inquisitorialSquad: "-inquistor-"
 };
-const myObject = {};
+const myObject = {
+  fullname: "Juliana Maria Barreto Mota",
+  firstname: "Juliana",
+  lastname: "Mota",
+  image: "images/juliana-portrait_350x503.png",
+  house: "Hufflepuff",
+  bloodstatus: "Muggle",
+  inquisitorialSquad: false
+};
 let arrayOfStudents = [];
 let filteredList = [];
 let currentFilter;
@@ -18,6 +26,7 @@ let filter;
 let currentSort;
 let families = [];
 let inquistSquade = [];
+let expelledList = [];
 
 window.addEventListener("DOMContentLoaded", init);
 
@@ -36,7 +45,7 @@ function init() {
   getFamilies();
 }
 
-//Fetch jason file
+//Fetch json file
 
 function getJSON() {
   //console.log("getJSON");
@@ -95,6 +104,7 @@ function makeObject(studentList) {
     checkblood(lastN);
     //console.log(newStuObject.image);
     arrayOfStudents.push(newStuObject);
+
     filteredList = arrayOfStudents;
     //console.log(arrayOfStudents);
   });
@@ -104,6 +114,7 @@ function makeObject(studentList) {
     student.id = uniqueID;
   });
   //console.log(arrayOfStudents);
+  arrayOfStudents.push(myObject);
   displayList(arrayOfStudents);
 }
 
@@ -217,6 +228,7 @@ function addinquisitorialSquad(student) {
   console.log(student);
   let id = student.firstname;
   //console.log(student.inquisitorialSquad);
+  //checkbox is checked
   if (event.target.checked === true) {
     if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
       inquistSquade.push(student);
@@ -232,7 +244,6 @@ function addinquisitorialSquad(student) {
       );
       event.target.checked = false;
     }
-
     //Checkbox is not checked..
   } else if (event.target.checked === false) {
     document.querySelector("#" + id + " div .sqadeImg ").classList.add("hide");
@@ -311,36 +322,44 @@ function showOneStudent(student) {
 }
 
 function clickList(event) {
-  //console.log(event.target.dataset.action === "remove");
+  console.log(event);
   // TODO: Figure out if a button was clicked
   if (event.target.dataset.action === "remove") {
     // TODO: If so, call clickRemove
     const eventId = event.target.id;
-    console.log(eventId);
+    //console.log(eventId);
     clickRemove(eventId);
   }
 }
 
+// expel student
 function clickRemove(eventId) {
-  console.log(arrayOfStudents);
   // TODO: Find the element index in the array
   function findById(id) {
     return arrayOfStudents.findIndex(obj => obj.id === id);
   }
   // TODO: Splice that element from the array
   let removeObject = findById(eventId);
-  console.log(removeObject);
+  //console.log(obj);
+  //console.log(event.path[1].id);
 
-  arrayOfStudents.splice(removeObject, 1);
-  //console.log(allAnimals);
+  if (event.path[1].id === "Juliana") {
+    alert("You can't remove me");
+  } else {
+    let obj = arrayOfStudents.splice(removeObject, 1);
+    console.log(obj);
+
+    obj.forEach(student => {
+      console.log(student);
+      expelledList.push(student);
+    });
+    displayExpel(expelledList);
+  }
+
+  console.log(expelledList);
 
   // Re-display the list
   displayList(arrayOfStudents);
-
-  // let expelledList = [];
-  // expelledList.slice(removeObject, 1);
-  // console.log(expelledList);
-  //document.querySelector("#expeld").appendChild();
 }
 
 //https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
@@ -349,5 +368,32 @@ function uuidv4() {
     var r = (Math.random() * 16) | 0,
       v = c == "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
+  });
+}
+
+function displayExpel(expelledList) {
+  document.querySelector("#expeld").innerHTML = "";
+  expelledList.forEach(student => {
+    const template = document.querySelector("#studentFirstNTemplate").content;
+    const clone = template.cloneNode(true);
+    //console.log(student.firstname);
+    console.log(student);
+    if (student.firstname) {
+      clone
+        .querySelector(".details-button")
+        .addEventListener("click", () => showOneStudent(student));
+
+      clone.querySelector(".firstN").textContent = student.firstname;
+      clone.querySelector(".lastN").textContent = student.lastname;
+      clone.querySelector(".house").textContent = student.house;
+      clone.querySelector(".blood").textContent = student.bloodstatus;
+
+      clone.querySelector("li").id = student.firstname;
+      clone.querySelector("[data-action=remove]").classList.add("hide");
+      clone.querySelector("input[name=checkbox]").classList.add("hide");
+
+      clone.querySelector(".sqadeImg").src = "images/wizengamot_seal.png";
+      document.querySelector("#expeld").appendChild(clone);
+    }
   });
 }

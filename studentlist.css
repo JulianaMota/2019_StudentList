@@ -236,13 +236,14 @@ section {
   margin: 40px 0px 40px 0px;
 }
 
-section div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 0 20% 0 20%;
+section #themes {
+  display: grid;
+  grid-template: 1fr/ 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   font-family: "Fredericka the Great", cursive;
   font-weight: 700;
+}
+section #themes :first-child {
+  grid-column: 2/3;
 }
 
 li {
@@ -284,11 +285,11 @@ li button:hover {
 }
 
 /************* Expelled  *****************/
-#expeld {
+#expelSection {
   padding: 40px 0 40px 0;
   background-color: rgb(68, 19, 19);
 }
-#expeld h2 {
+#expelSection h2 {
   font-family: "Fredericka the Great", cursive;
   font-weight: 700;
   text-align: center;
