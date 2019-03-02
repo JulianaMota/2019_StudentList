@@ -205,6 +205,8 @@ function displayList(arrayOfStudents) {
       .querySelector("input[name=checkbox]")
       .addEventListener("click", () => addinquisitorialSquad(student));
 
+    clone.querySelector(".sqadeImg").src = "images/wizengamot_seal.png";
+
     document.querySelector("#sList").appendChild(clone);
   });
 }
@@ -212,21 +214,32 @@ function displayList(arrayOfStudents) {
 function addinquisitorialSquad(student) {
   console.log(event);
   console.log(student);
+  let id = student.firstname;
   //console.log(student.inquisitorialSquad);
   if (event.target.checked === true) {
-    if (student.house == "Slytherin" || student.blood == "pure") {
+    if (student.bloodstatus == "Pure" || student.house == "Slytherin") {
       inquistSquade.push(student);
       console.log(inquistSquade);
-
-      document.querySelector(".sqadeImg").src = "images/wizengamot_seal.png";
-      document.querySelector(".sqadeImg").classList.remove("hide");
+      student.inquisitorialSquad = true;
+      document
+        .querySelector("#" + id + " div .sqadeImg ")
+        .classList.remove("hide");
     } else {
-      document.querySelector(".sqadeImg").classList.add("hide");
-      //Checkbox is not checked..
+      student.inquisitorialSquad = false;
+      alert(
+        "This student is not allowed to be part of the Inquisitorial Squad."
+      );
+      event.target.checked = false;
     }
-    //student.inquisitorialSquad = true;
 
     //Checkbox is not checked..
+  } else if (event.target.checked === false) {
+    document.querySelector("#" + id + " div .sqadeImg ").classList.add("hide");
+    let obj = inquistSquade.find(obj => obj === student);
+    let po = inquistSquade.indexOf(obj);
+    inquistSquade.splice(po, 1);
+    console.log(inquistSquade);
+    student.inquisitorialSquad = false;
   }
 }
 
@@ -247,6 +260,11 @@ function showOneStudent(student) {
 
   modal.querySelector(".name span").textContent = student.fullname;
   modal.querySelector(".house").textContent = student.house;
+  modal.querySelector("[data-field=fistName] span").textContent =
+    student.firstname;
+  modal.querySelector("[data-field=lastName] span").textContent =
+    student.lastname;
+
   if (student.house == "Gryffindor") {
     modal.querySelector(".modal-content").classList.add("gryffindor");
   } else {
@@ -269,6 +287,12 @@ function showOneStudent(student) {
     modal.querySelector(".modal-content").classList.add("slytherin");
   } else {
     modal.querySelector(".modal-content").classList.remove("slytherin");
+  }
+
+  if (inquistSquade.includes(student)) {
+    modal.querySelector(".sqadeImg").classList.remove("hide");
+    modal.querySelector(".squadText").classList.remove("hide");
+    modal.querySelector(".sqadeImg").src = "images/wizengamot_seal.png";
   }
 
   modal.classList.remove("hide");
