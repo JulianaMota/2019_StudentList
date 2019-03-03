@@ -127,6 +127,29 @@ function makeObject(studentList) {
   //console.log(arrayOfStudents);
   arrayOfStudents.push(myObject);
   displayList(arrayOfStudents);
+  updateNumberS();
+}
+
+//count house
+function updateNumberS() {
+  document.querySelector("#countG span").innerHTML = count("Gryffindor");
+  document.querySelector("#countH span").innerHTML = count("Hufflepuff");
+  document.querySelector("#countR span").innerHTML = count("Ravenclaw");
+  document.querySelector("#countS span").innerHTML = count("Slytherin");
+  document.querySelector("#countA span").innerHTML = count("all");
+
+  document.querySelector("#countE span").innerHTML = expelledList.length;
+}
+
+function count(house) {
+  let studentsNumber;
+  console.log(studentsNumber);
+  if (house === "all") {
+    studentsNumber = arrayOfStudents;
+  } else {
+    studentsNumber = arrayOfStudents.filter(student => student.house === house);
+  }
+  return studentsNumber.length;
 }
 
 //filter list
@@ -390,6 +413,7 @@ function clickRemove(eventId) {
   console.log(expelledList);
 
   // Re-display the list
+  updateNumberS();
   displayList(filteredList);
 }
 
