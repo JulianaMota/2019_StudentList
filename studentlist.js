@@ -1,6 +1,9 @@
 "use strict";
+//links
 const baseLink = "https://petlatkea.dk/2019/hogwarts/students.json";
 const familyLink = "https://petlatkea.dk/2019/hogwarts/families.json";
+
+//prototype object
 const studentObject = {
   fullname: "-student name-",
   firstname: "-student first name-",
@@ -10,6 +13,8 @@ const studentObject = {
   bloodstatus: "-student blood status-",
   inquisitorialSquad: "-inquistor-"
 };
+
+//the object with my info
 const house = ["Hufflepuff", "Gryffindor", "Ravenclaw", "Slytherin"];
 const randomH = Math.floor(Math.random() * house.length);
 const myObject = {
@@ -21,17 +26,22 @@ const myObject = {
   bloodstatus: "Muggle",
   inquisitorialSquad: false
 };
+
+//diferent arrays
 let arrayOfStudents = [];
 let filteredList = [];
-let currentFilter;
-let filter;
-let currentSort;
 let families = [];
 let inquistSquade = [];
 let expelledList = [];
 
+//global variabls
+let currentFilter;
+let filter;
+let currentSort;
+
 window.addEventListener("DOMContentLoaded", init);
 
+//init function
 function init() {
   document.querySelector("#Gryffindor").addEventListener("click", filterList);
   document.querySelector("#Hufflepuff").addEventListener("click", filterList);
@@ -43,11 +53,10 @@ function init() {
   document.querySelector("#house").addEventListener("click", sortByHouse);
 
   document.querySelector("section").addEventListener("click", clickList);
-  // TODO: Load JSON, create clones, build list, add event listeners, show modal, find images, and other stuff ...
   getFamilies();
 }
 
-//Fetch json file
+//Fetch json files
 
 function getJSON() {
   //console.log("getJSON");
@@ -60,11 +69,8 @@ function getFamilies() {
     .then(pro => pro.json())
     .then(nameChecking);
 }
-
 function nameChecking(bloodList) {
   families = bloodList;
-  // families.half = families.pure;
-  // families.pure = families.half;
   console.log(families);
   getJSON();
 }
@@ -228,6 +234,8 @@ function displayList(arrayOfStudents) {
   });
 }
 
+//inquisitorial squad function
+
 function addinquisitorialSquad(student) {
   //console.log(event);
   //console.log(student);
@@ -341,8 +349,9 @@ function showOneStudent(student) {
   modal.addEventListener("click", () => modal.classList.add("hide"));
 }
 
+//click on expel
 function clickList(event) {
-  //console.log(event);
+  console.log(event.target.id);
   // TODO: Figure out if a button was clicked
   if (event.target.dataset.action === "remove") {
     // TODO: If so, call clickRemove
@@ -361,13 +370,15 @@ function clickRemove(eventId) {
   // TODO: Splice that element from the array
   let removeObject = findById(eventId);
   //console.log(obj);
-  //console.log(event.path[1].id);
+  console.log(event.path[1].id);
 
   if (event.path[1].id === "Juliana") {
     alert("You can't remove me");
   } else {
     let obj = arrayOfStudents.splice(removeObject, 1);
     console.log(obj);
+    //!== not equal
+    filteredList = filteredList.filter(student => student.id !== eventId);
 
     obj.forEach(student => {
       //console.log(student);
@@ -379,9 +390,10 @@ function clickRemove(eventId) {
   console.log(expelledList);
 
   // Re-display the list
-  displayList(arrayOfStudents);
+  displayList(filteredList);
 }
 
+//uniq id math
 //https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -391,6 +403,7 @@ function uuidv4() {
   });
 }
 
+// Display expel students
 function displayExpel(expelledList) {
   document.querySelector("#expeld").innerHTML = "";
   expelledList.forEach(student => {
